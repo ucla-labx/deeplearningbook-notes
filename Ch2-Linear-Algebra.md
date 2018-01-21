@@ -37,7 +37,6 @@ $$
     - in the case of $n \geq m$ we also must ensure that the columns are **linearly independent**, which means that no column is a linear combination of the other vectors in the set
     - also. we need to ensure that there are at most $m$ columns, as this ensures there is one and only one solution. This means that $\textbf{A}$ must be **square**  and non-singular
     - If $\hat{x}$ is a solution to $Ax = b$ then $y$ is also a solution if $A(\hat{x} + y) = b \rightarrow{} Ay = 0$ has any non-trivial solutions. This means that the null-space of $A$ has nontrivial vectors and $Ax = b$ has infinitely many solutions.
-- both left and right inverses are equal
 
 
 #### Norms
@@ -70,7 +69,7 @@ $$
     - An **eigenvector** of $\textbf{A}$ is any vector $\textbf{v}$ s.t. $\textbf{Av} = \lambda\textbf{v}$ - which means $\textbf{v}$ is only rescaled
     - $\lambda$ is the **eigenvalue** for that eigenvector
     - Let $A$ be a matrix with $n$ linearly independent eigenvectors ${v_1...v_n}$, and let the corresponding eigenvalues be ${\lambda_1 ... \lambda_n}$. Then the eigendecomposition of $A$ is given by $$A = Vdiag(\lambda)V^{-1}$$ where $V$ is the matrix obtained by letting the eigenvectors be the columns of the matrix $V$, and letting $diag(\lambda)$ be a diagonal matrix who's entries are given by the vector $\lambda$. 
-    - If the matrix $A$ is symmetric then $V$ will be an orthogonal matrix. 
+    - If the matrix $A$ is symmetric then $V$ will be an orthogonal matrix. Since the inverse of an orthogolal matrix is it's transpose, we can rewrite the eigendecomposition for symmetric matrices as $A = Vdiag(\lambda)V^T$. 
 - The eigendecomposition is unique only if all the eigenvalues are unique. 
 - If a matrix has $0$ as an eigenvalue, that means there exists a vector $v$ such that $Av = 0$ and the matrix is singular and cannot be inverted.
 - **Positive definite** - a matrix whose eigenvalues are all positive
@@ -78,17 +77,23 @@ $$
 - **negative definite** - a matrix with all negative eigenvalues
 - **negative semidefinite** - a matrix with all negative or 0 eigenvalues
 
+#### Optimization with Eigenvalues and Eigenvectors
+
+- Often come up in maximizing some function of a matrix (i.e. PCA)
+- The solution to the optimization problem $max_x x^TAx$ subject to $||x|| = 1$ is $x_1$, the eigenvector corresponding to the largest eigenvalue.  
+
 #### Singular Value Decomposition
 - factorize a matrix into singular vectors and singular values
 - We have $A = UDV^T$
 - Here, $U$ and $V$ are orthogonal matrices and $D$ is a diagonal matrix. 
 - $U$ corrseponds to the **left singular vectors** of $A$ which are the eigenvectors of $AA^T$. Similarly, $V$ corresponds to the **right singular vectors** of $A$ which are the eigenvectors of $A^TA$. 
-- $D​$'s diagonal entries correspond to $A​$'s singular values, which are the square roots of the eigenvalues of $AA^T​$. 
-- The SVD is usefl to compute the **Moore-Penrose Psuedoinverse** of nonsquare matrices. 
+- $D$'s diagonal entries correspond to $A$'s singular values, which are the square roots of the eigenvalues of $AA^T$. 
+- The SVD is useful to compute the **Moore-Penrose Psuedoinverse** of nonsquare matrices. 
 
 #### Trace & Determinant
-- The trace operator gives the sum of all diagonal entries of a matrix: $Tr(A) = \sum_i A_{i,i}$. The trace is invariant to transpose
+- The trace operator gives the sum of all diagonal entries of a matrix: $Tr(A) = \sum_i A_{i,i}$. The trace is invariant to transpose. 
 - The Frobenius norm can be expressed in terms of the trace: $||A||_F = \sqrt{Tr(AA^T)}$
 
 
 - The determinant maps matrices to real-valued scalars. The determinant of a matrix is equal to the product of it's eigenvalues. It can be thought of a measure of how the matrix expand/contracts space.
+- The trace is the sum of all the eigenvalues, while the determinant is their product. 
