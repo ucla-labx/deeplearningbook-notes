@@ -1,6 +1,7 @@
--------
+---
 mathjax:true
-------
+---
+
 ## Chapter 2:
 
 #### Matrix & Vector Properties
