@@ -2,7 +2,7 @@
 
 #### Matrix & Vector Properties
 - The matrix product $\textbf{C} = \textbf{AB}$ is defined by $\textbf{C}_{i,j} = \sum_k \textbf{A}_{i,k}\textbf{B}_{k,j}$
-    - This equation basically says that the $(i,j)$ th element of $textbf{C}$ is equal to the dot product of the $i$th row of $\textbf{A}$ and the $j$th column of $\textbf{B}$. 
+    - This equation basically says that the $(i,j)$ th element of $\textbf{C}$ is equal to the dot product of the $i$th row of $\textbf{A}$ and the $j$th column of $\textbf{B}$. 
     - Matrix multiplication is not commutative: $AB \neq BA$ in general
     - It is associative: $(\textbf{AB})\textbf{C} = \textbf{A}(\textbf{BC})$ and distributive: $\textbf{A}(\textbf{B} + \textbf{C}) = \textbf{AB} + \textbf{BC}$.
 - **Hadamard product** is an element wise product of 2 matrices.
@@ -58,7 +58,11 @@ $$
 - **unit vectors** are any vector with 1 $L^2$ norm 
 - **orthogonal** vectors are any two vectors s.t. $\textbf{x}^T\textbf{y} = 0$
 - **orthonormal** vectors are both orthogonal and of unit norm
-- **othogonal** matrix is a square matrix whose rows and columns are mutually orthonormal. It's inverse is simply it's transpose
+- **orthogonal** matrix is a square matrix whose rows and columns are mutually orthonormal. An orthonormal matrix has the property $AA^T = A^TA = I = A^{-1}A$. 
+- A linear map $f(x) = Ax$ has many properties when $A$ is orthogonal:
+  - inner products are preserved: $(Ax)^T(Ay) = x^Ty$ 
+  - norms are preserved: $||Ax|| = ||x||$
+  - distances are preserved: $||Ax - y|| = ||x - y||$
 
 
 #### Eigendecomposition
@@ -70,7 +74,7 @@ $$
 - The eigendecomposition is unique only if all the eigenvalues are unique. 
 - If a matrix has $0$ as an eigenvalue, that means there exists a vector $v$ such that $Av = 0$ and the matrix is singular and cannot be inverted.
 - **Positive definite** - a matrix whose eigenvalues are all positive
-- **positive semidefinite** - a matrix whose eigenvalues aer all positive or 0.
+- **positive semidefinite** - a matrix whose eigenvalues aer all positive or 0. For a PSD matrix we have $z^TAz \geq 0 $. 
 - **negative definite** - a matrix with all negative eigenvalues
 - **negative semidefinite** - a matrix with all negative or 0 eigenvalues
 
@@ -79,7 +83,7 @@ $$
 - We have $A = UDV^T$
 - Here, $U$ and $V$ are orthogonal matrices and $D$ is a diagonal matrix. 
 - $U$ corrseponds to the **left singular vectors** of $A$ which are the eigenvectors of $AA^T$. Similarly, $V$ corresponds to the **right singular vectors** of $A$ which are the eigenvectors of $A^TA$. 
-- $D$'s diagonal entries correspond to $A$'s singular values, which are the square roots of the eigenvalues of $AA^T$. 
+- $D​$'s diagonal entries correspond to $A​$'s singular values, which are the square roots of the eigenvalues of $AA^T​$. 
 - The SVD is usefl to compute the **Moore-Penrose Psuedoinverse** of nonsquare matrices. 
 
 #### Trace & Determinant
