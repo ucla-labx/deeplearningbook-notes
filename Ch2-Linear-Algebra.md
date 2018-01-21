@@ -53,7 +53,7 @@ $$
     - $\forall \alpha \in \mathbb{R} = \left\vert\alpha\right\vert f(\textbf{x})$
 - $L^2$ norm is also known as the **Euclidean norm**, although it's square is usually easier to work with and be simply calculated as $\textbf{x}^T\textbf{x}$
 - We can use the $L_1$ norm when we want to distinguish between the elements that are close to $0$ and are actually $0$. Whenever an element of $x$ moves by some $\epsilon$ from $0$, the $L_1$ norm grows by exactly $\epsilon$.
-- The max norm $||x||_\infty$  corresponds to the maximum element of $x$. 
+- The max norm $\Vert{x}_\infty$  corresponds to the maximum element of $x$. 
 - Frobenius norm: The $L^2$ norm applied to matrices: $\sqrt{\sum_{i,j}A_{i,j}^2}$
 
 #### Special Matrices
@@ -65,8 +65,8 @@ $$
 - **orthogonal** matrix is a square matrix whose rows and columns are mutually orthonormal. An orthonormal matrix has the property $AA^T = A^TA = I = A^{-1}A$. 
 - A linear map $f(x) = Ax$ has many properties when $A$ is orthogonal:
   - inner products are preserved: $(Ax)^T(Ay) = x^Ty$ 
-  - norms are preserved: $||Ax|| = ||x||$
-  - distances are preserved: $||Ax - y|| = ||x - y||$
+  - norms are preserved: $\Vert{Ax} = \Vert{x}$
+  - distances are preserved: $\Vert{Ax - y} = \Vert{x - y}$
 
 
 #### Eigendecomposition
@@ -85,7 +85,7 @@ $$
 #### Optimization with Eigenvalues and Eigenvectors
 
 - Often come up in maximizing some function of a matrix (i.e. PCA)
-- The solution to the optimization problem $max_x x^TAx$ subject to $||x|| = 1$ is $x_1$, the eigenvector corresponding to the largest eigenvalue.  
+- The solution to the optimization problem $max_x x^TAx$ subject to $\Vert{x} = 1$ is $x_1$, the eigenvector corresponding to the largest eigenvalue.  
 
 #### Singular Value Decomposition
 - factorize a matrix into singular vectors and singular values
@@ -97,7 +97,7 @@ $$
 
 #### Trace & Determinant
 - The trace operator gives the sum of all diagonal entries of a matrix: $Tr(A) = \sum_i A_{i,i}$. The trace is invariant to transpose. 
-- The Frobenius norm can be expressed in terms of the trace: $||A||_F = \sqrt{Tr(AA^T)}$
+- The Frobenius norm can be expressed in terms of the trace: $\Vert{A}_F = \sqrt{Tr(AA^T)}$
 
 
 - The determinant maps matrices to real-valued scalars. The determinant of a matrix is equal to the product of it's eigenvalues. It can be thought of a measure of how the matrix expand/contracts space.
