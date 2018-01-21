@@ -1,3 +1,3 @@
 # deeplearning-book-notes
 
-[test](/Ch2-linear-Algebra)
+[test](/deeplearning-book-notes/Ch2-linear-Algebra) 
