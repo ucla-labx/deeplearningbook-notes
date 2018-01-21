@@ -6,7 +6,7 @@ mathjax:true
 ## Chapter 2:
 
 #### Matrix & Vector Properties
-- The matrix product $\textbf{C} = \textbf{AB}$ is defined by $\textbf{C}_{i,j} = \sum_{k} \textbf{A}_{i,k}\textbf{B}_{k,j}$
+- The matrix product $\textbf{C} = \textbf{AB}$ is defined by $$\textbf{C}_{i,j} = \sum_{k} \textbf{A}_{i,k}\textbf{B}_{k,j}$$
     - This equation basically says that the $(i,j)$ th element of $\textbf{C}$ is equal to the dot product of the $i$th row of $\textbf{A}$ and the $j$th column of $\textbf{B}$. 
     - Matrix multiplication is not commutative: $AB \neq BA$ in general
     - It is associative: $(\textbf{AB})\textbf{C} = \textbf{A}(\textbf{BC})$ and distributive: $\textbf{A}(\textbf{B} + \textbf{C}) = \textbf{AB} + \textbf{BC}$.
