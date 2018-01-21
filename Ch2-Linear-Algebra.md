@@ -65,7 +65,7 @@ $$
 - **orthogonal** matrix is a square matrix whose rows and columns are mutually orthonormal. An orthonormal matrix has the property $AA^T = A^TA = I = A^{-1}A$. 
 - A linear map $f(x) = Ax$ has many properties when $A$ is orthogonal:
   - inner products are preserved: $(Ax)^T(Ay) = x^Ty$ 
-  - norms are preserved: $\Vert{Ax} = \Vert{x}$
+  - norms are preserved: $\Vert{Ax}\Vert = \Vert{x}\Vert$
   - distances are preserved: $\Vert{Ax - y}\Vert = \Vert{x - y}\Vert$
 
 
