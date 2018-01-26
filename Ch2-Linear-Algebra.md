@@ -3,7 +3,7 @@ layout: post
 mathjax:true
 ---
 
-## Chapter 2:
+## Chapter 2 Linear Algebra:
 
 #### Matrix & Vector Properties
 - The matrix product $\textbf{C} = \textbf{AB}$ is defined by $$\textbf{C}_{i,j} = \sum_{k} \textbf{A}_{i,k}\textbf{B}_{k,j}$$
