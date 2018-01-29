@@ -1,4 +1,4 @@
-# Chapter 1: Inroduction
+# Chapter 1: Introduction
 
 True challenge of AI is to perform easy tasks that are hard to formally describe. 
 
