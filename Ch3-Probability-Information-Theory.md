@@ -4,7 +4,7 @@
 - Two different types of probability: **frequentist** and **bayesian**. 
 - Bayesians approach treates probabilities as degrees of belief.
 - Frequentist probability refers to the rates at which events occur, while Bayesian probability refers to more qualitative levels of certainty. 
-- Example of frequentist would be that flipping a fair coin comes up heads with probability $p = 0.5$, because if you flip the coin infinitely many times, half of the outcomes will be heads. 
+- Example of frequentist would be that flipping a fair coin comes up heads with probability $p = 0.5​$, because if you flip the coin infinitely many times, half of the outcomes will be heads. 
 - Example of Bayesian probability is a doctor saying a patient has 40% chance of having the flu given some symptoms.
 
 
@@ -19,7 +19,7 @@
 - The chain rule of probability is super important . It basically lets us exprss a joint distribution as a conditional distribution.
 - In 2 variables, we have $p(a, b) = p(a \mid b)p(b)$. In 3 variables, we have $p(a, b, c) = p(a, b \mid c)p(c) = p(a \mid b, c) p(b \mid c)p(c)$. 
 - - In $n$ variables, we just keep applying this over and over: $p(x^1 ... x^n) = p(x^1)\prod_{i=2}^{n} p(x^i \mid x^1 ... x^{i-1})$. 
-- Note that we can still use the chain rule if we want to express a conditional joint distribution, for example if we have a joint distribution of our dataset $(x,y)$ conditioned on a parameter $\theta$ we have $p(x, y \mid \theta) = p(y \mid x, \theta) = p(x \vert \theta)$. 
+- Note that we can still use the chain rule if we want to express a conditional joint distribution, for example if we have a joint distribution of our dataset $(x,y)$ conditioned on a parameter $\theta$ we have $p(x, y \mid \theta) = p(y \mid x, \theta) = p(x \mid \theta)$. 
 
 #### Independence and Conditional Independence
 - Two random variable are **independent** if $\forall x \in x, y \in y, p(x=x, y=y) = p(x=x)p(y=y)$
@@ -63,7 +63,7 @@
 - **softplus function** $$softplus(x) = \log(1+\exp(x))$$. This is a smoothened version of the rectified linear unit $f(x) = max(0,x)$ which is commonly used as a nonlinearity in deep nets.
 
 #### Bayes Theorem
-$$p(y \mid x) = \frac{p(x \mid y)p(y)}{p(x)}$$. 
+$$p(y \mid x) = \frac{p(x \mid y)p(y)}{p(x)}$$ 
 - We can interpret $y$ as being the class labels and $x$ as being our feature vectors. Bayes theorem tells us that we can obtain the posterior probabilities of $y$ given the likelihood $p(x \mid y)$, and the priors $p(y)$, and the evidence $p(x)$. Given these, we can estimate the most likely class that $x$ belongs to by computing $argmax_{y} p(y \mid x)$ 
 
 #### Technical Details of Continuous Variables
