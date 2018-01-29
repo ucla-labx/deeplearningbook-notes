@@ -80,10 +80,17 @@ $$p(y \mid x) = \frac{p(x \mid y)p(y)}{p(x)}$$.
 
 #### Structured Probabilistic Models
 - Often, we are given a large joint distribution, and want to factor it into a composition of functions of relatively fewer variables. 
+
 - For example, if we have the joint $p(a, b, c, d)$ then we could write that out using the chain rule of conditional probability $p(a, b, c, d) = p(a \mid b, c, d)p(b \mid c,d)p(c \mid d)p(d)$. However, if we know certain things/make certain assumptions about these probabilities (such as a only depends on b and nothing else), then we can dramatically simplify the above expressions. 
+
 - These simplified conditional expressions can be modelled as a directed graph, where nodes with no incoming edges do not depend on any other variables, and nodes' incoming edges denote the variables that they do depend on.
+
 - Given that the **directed** models have direced edges, we can compute $p(x)$ by tracing back it's connections with $p(x) = \prod_ip(x_i \mid P_{aG}(X_i))$
+
 - **undirected** models represent factorizations into a set of functions.
+
 - The probability of random variables is **proportional** to the product of all these factors. 
- ![graphical_model](https://raw.githubusercontent.com/uclaacmai/deeplearning-book-notes/master/images/model.png)
- - The above directed graphical model indicates that $e$ is conditioned on $c$, $c$ is conditioned on $b$ and $a$, etc. For example, we can see that $$p(d) = p(d | b)p(b) = p(d \mid b)p(b \mid a)p(a)$$. 
+
+- The above directed graphical model indicates that $e$ is conditioned on $c$, $c$ is conditioned on $b$ and $a$, etc. For example, we can see that $p(d) = p(d | b)p(b) = p(d \mid b)p(b \mid a)p(a)$.
+
+   ![graphical_model](https://raw.githubusercontent.com/uclaacmai/deeplearning-book-notes/master/images/model.png) 
