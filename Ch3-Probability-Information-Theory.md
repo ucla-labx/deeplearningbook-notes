@@ -17,7 +17,7 @@
 
 - The chain rule of probability is super important . It basically lets us exprss a joint distribution as a conditional distribution.
 - In 2 variables, we have $p(a, b) = p(a \mid b)p(b)$. In 3 variables, we have $p(a, b, c) = p(a, b \mid c)p(c) = p(a \mid b, c) p(b \mid c)p(c)$. 
-- - In $n$ variables, we just keep applying this over and over: $p(x^1 ... x^n) = p(x^1)\prod_{i=2}^{n} p(x^i \mid x^1 ... x^{i-1})$. 
+- In $n$ variables, we just keep applying this over and over: $p(x^1 ... x^n) = p(x^1)\prod_{i=2}^{n} p(x^i \mid x^1 ... x^{i-1})$. 
 - Note that we can still use the chain rule if we want to express a conditional joint distribution, for example if we have a joint distribution of our dataset $(x,y)$ conditioned on a parameter $\theta$ we have $p(x, y \mid \theta) = p(y \mid x, \theta) = p(x \vert \theta)$. 
 
 #### Independence and Conditional Independence
