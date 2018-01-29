@@ -91,6 +91,6 @@ $$p(y \mid x) = \frac{p(x \mid y)p(y)}{p(x)}$$.
 
 - The probability of random variables is **proportional** to the product of all these factors. 
 
-- The above directed graphical model indicates that $e$ is conditioned on $c$, $c$ is conditioned on $b$ and $a$, etc. For example, we can see that $p(d) = p(d | b)p(b) = p(d \mid b)p(b \mid a)p(a)$.
-
    ![graphical_model](https://raw.githubusercontent.com/uclaacmai/deeplearning-book-notes/master/images/model.png) 
+
+- The above directed graphical model indicates that $e$ is conditioned on $c$, $c$ is conditioned on $b$ and $a$, etc. Also, we can see that $p(d) = p(d  \mid b) p(b)= p(d \mid b)p(b \mid a)p(a)$
