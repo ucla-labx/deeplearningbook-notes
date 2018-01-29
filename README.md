@@ -6,5 +6,6 @@ Hi there, these are a collection of notes the [deeplearningbook](http://www.deep
 
 ## Part I: Applied Math and Machine Learning Basics
 [Chapter 2: Linear Algebra](https://uclaacmai.github.io/deeplearning-book-notes/Ch2-Linear-Algebra) 
+
 [Chapter 3: Probability and Information Theory](https://uclaacmai.github.io/deeplearning-book-notes/Ch3-Probability-Information-Theory) 
 
