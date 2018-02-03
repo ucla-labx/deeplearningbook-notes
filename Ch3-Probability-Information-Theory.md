@@ -7,7 +7,6 @@
 - Example of frequentist would be that flipping a fair coin comes up heads with probability $p = 0.5​$, because if you flip the coin infinitely many times, half of the outcomes will be heads. 
 - Example of Bayesian probability is a doctor saying a patient has 40% chance of having the flu given some symptoms.
 
-
 #### Marginal Probability
 - when we want to know the probability distribution over a subset of variables. 
 - **sum rule** - $\forall x \in x, P(x=x)= \sum_y{P(x=x, y=y)}$
@@ -18,8 +17,13 @@
 
 - The chain rule of probability is super important . It basically lets us exprss a joint distribution as a conditional distribution.
 - In 2 variables, we have $p(a, b) = p(a \mid b)p(b)$. In 3 variables, we have $p(a, b, c) = p(a, b \mid c)p(c) = p(a \mid b, c) p(b \mid c)p(c)$. 
+<<<<<<< HEAD
 - - In $n$ variables, we just keep applying this over and over: $p(x^1 ... x^n) = p(x^1)\prod_{i=2}^{n} p(x^i \mid x^1 ... x^{i-1})$. 
 - Note that we can still use the chain rule if we want to express a conditional joint distribution, for example if we have a joint distribution of our dataset $(x,y)$ conditioned on a parameter $\theta$ we have $p(x, y \mid \theta) = p(y \mid x, \theta) = p(x \mid \theta)$. 
+=======
+- In $n$ variables, we just keep applying this over and over: $p(x^1 ... x^n) = p(x^1)\prod_{i=2}^{n} p(x^i \mid x^1 ... x^{i-1})$. 
+- Note that we can still use the chain rule if we want to express a conditional joint distribution, for example if we have a joint distribution of our dataset $(x,y)$ conditioned on a parameter $\theta$ we have $p(x, y \mid \theta) = p(y \mid x, \theta) = p(x \vert \theta)$. 
+>>>>>>> 3be862074648a9b0be65287b30ff757d35082eff
 
 #### Independence and Conditional Independence
 - Two random variable are **independent** if $\forall x \in x, y \in y, p(x=x, y=y) = p(x=x)p(y=y)$
@@ -35,7 +39,6 @@
 
 #### Covariance Matrices
 - If we have a random vector $x$ (so each element $x_i \in x$ is a random variable drawn from some distribution, then we can construct a covariance matrix for x, denoted as $C$. Each element $C_{i,j}$ will denote the covariance between elements $x_i$ $x_j$, so also $C_{i,i} = Var(x_i, x_i)$.
-
 
 #### Common Probability Distributions
 - **Bernoulli distribution** - single binary random variable controlled by the probability $\phi$
@@ -80,17 +83,9 @@ $$p(y \mid x) = \frac{p(x \mid y)p(y)}{p(x)}$$
 
 #### Structured Probabilistic Models
 - Often, we are given a large joint distribution, and want to factor it into a composition of functions of relatively fewer variables. 
-
 - For example, if we have the joint $p(a, b, c, d)$ then we could write that out using the chain rule of conditional probability $p(a, b, c, d) = p(a \mid b, c, d)p(b \mid c,d)p(c \mid d)p(d)$. However, if we know certain things/make certain assumptions about these probabilities (such as a only depends on b and nothing else), then we can dramatically simplify the above expressions. 
-
 - These simplified conditional expressions can be modelled as a directed graph, where nodes with no incoming edges do not depend on any other variables, and nodes' incoming edges denote the variables that they do depend on.
-
 - Given that the **directed** models have direced edges, we can compute $p(x)$ by tracing back it's connections with $p(x) = \prod_ip(x_i \mid P_{aG}(X_i))$
-
-- **undirected** models represent factorizations into a set of functions.
-
 - The probability of random variables is **proportional** to the product of all these factors. 
-
-   ![graphical_model](https://raw.githubusercontent.com/uclaacmai/deeplearning-book-notes/master/images/model.png) 
-
+![graphical_model](https://raw.githubusercontent.com/uclaacmai/deeplearning-book-notes/master/images/model.png) 
 - The above directed graphical model indicates that $e$ is conditioned on $c$, $c$ is conditioned on $b$ and $a$, etc. Also, we can see that $p(d) = p(d  \mid b) p(b)= p(d \mid b)p(b \mid a)p(a)$
