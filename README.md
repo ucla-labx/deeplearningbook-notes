@@ -12,3 +12,5 @@ These are still under construction, but if you see an error or would like someth
 
 [Chapter 4: Numerical Computation](https://uclaacmai.github.io/deeplearning-book-notes/Ch4-Numerical-Computation)
 
+[Chapter 5: Machine Learning Basics](https://uclaacmai.github.io/deeplearning-book-notes/Ch5-Machine-Learning-Basics)
+
