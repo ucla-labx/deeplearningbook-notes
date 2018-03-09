@@ -177,7 +177,7 @@ $$ \theta_{MAP} = argmax_{\theta} p(\theta \mid x) = argmax_\theta \log p(x \mid
 ## Stochastic Gradient Descent 
 
 - Essentially an extension of Gradient Descent
-- Main idea is tthat computing the true gradient may be inefficient or impractical, especially on a very large deep learning dataset, since we need to sum across all of the training examples, and there could be millions. 
+- Main idea is that computing the true gradient may be inefficient or impractical, especially on a very large deep learning dataset, since we need to sum across all of the training examples, and there could be millions. 
 - Instead, stochastic GD samples a **minibatch** of training examples, computes the gradients using only those examples, and updates the weight according to that gradient.
     - When the size of the minibatch = 1, this is referred to as **online learning**
     - Provides a noisy estimate of the true gradient. 
