@@ -14,3 +14,6 @@ These are still under construction, but if you see an error or would like someth
 
 [Chapter 5: Machine Learning Basics](https://uclaacmai.github.io/deeplearning-book-notes/Ch5-Machine-Learning-Basics)
 
+## Part II: Modern Practical Deep Networks
+
+[Chapter 6: Deep Feedforward Networks](https://uclaacmai.github.io/deeplearning-book-notes/Ch6-Feedforward-Neural-Networks.md)

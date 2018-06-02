@@ -1,7 +1,5 @@
 # Chapter 6: Deep Feedforward Networks
 
-
-
 #### Introduction
 - Deep feedforward neural nets are also known as multilayer perceptrons
 - Goal is to approximate a function $f*(x)$ by learning a mapping $y = f(x; \theta)$ where $\theta$ are the paramters to be learned by the model
