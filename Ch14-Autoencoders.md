@@ -29,7 +29,7 @@ For a $$L^2$$ regularization penalty, $$p(h)$$ is a Gaussian distribution.
 Here we want to minimize the loss function $$L(x, g(f(\tilde{x})))$$, where $$\tilde{x}$$ is $$x$$ with some corruption or noise. 
 
 
-This corresponds to minimizing $$E_{x~\hat{p}_data} E_{\tilde{x}~L(\tilde{x} \vert x) \log p_decoder (x \vert h)$$  where $$h = f(\tilde{x})$$.
+This corresponds to minimizing $$E_{x~ \hat{p}_data} E_{\tilde{x}~ L( \tilde{x} \vert x) \log p_decoder (x \vert h)$$  where $$h = f(\tilde{x})$$.
 
 Alterative we can use score matching as an alterative to maximizing the log likelihood - which learns the gradient field.
 
