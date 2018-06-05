@@ -28,12 +28,11 @@ For a $$L^2$$ regularization penalty, $$p(h)$$ is a Gaussian distribution.
 
 Here we want to minimize the loss function $$L(x, g(f(\tilde{x})))$$, where $$\tilde{x}$$ is $$x$$ with some corruption or noise. 
 
-
-This corresponds to minimizing $$E_{x~ \hat{p}_data} E_{\tilde{x}~ L( \tilde{x} \vert x) \log p_decoder (x \vert h)$$  where $$h = f(\tilde{x})$$.
+This corresponds to minimizing $$E_{x~ \hat{p}_data} E_{\tilde{x}~ L( \tilde{x} \vert x)} \log p_decoder (x \vert h)$$  where $$h = f(\tilde{x})$$.
 
 Alterative we can use score matching as an alterative to maximizing the log likelihood - which learns the gradient field.
 
-Denoising autoencoders (DAE) learn a vector field $$g(f(x)))$$ that estimates the score of the data distribution.
+Denoising autoencoders (DAE) learn the vector field of $$g(f(x)))$$ which we can use to estimate the score of the data distribution.
 
 With a regularization loss $$\Omega (h) = \lambda \Vert\frac{\partial f(x)}{\partial x}\Vert^2_F$$, a denoising autoencoder learns to not respond to small changes to it's input - it esssentially learns how to map the corrupted example back onto the manifold - this is what gives us our vector field.
 
@@ -59,7 +58,7 @@ However, if manifolds vary a lot, then we need a lot of "pancakes" to capture th
 
 Contractive autoencoders trained with sigmoidal units createa  sort of binary code in their hiddne layer. 
 
-The cost function approaches f(x) as a linear operator. In this instance the term contractive comes from the fact that $$norm(J) \leq 1 \forall x s.t. \Vert{x}\Vert=1$$. WE are essentially shrinking, or contracting the unit sphere. 
+The cost function approaches f(x) as a linear operator. In this instance the term contractive comes from the fact that $$norm(J) \leq 1 \forall x s.t. \Vert{x}\Vert=1$$. We are essentially shrinking, or contracting the unit sphere. 
 
 Usually, only a small number of hidden units have large derivatives - these corresponds to movement along the manifold, as the capture most of the variance of the data. 
 
@@ -75,6 +74,6 @@ $$ min \Vert x-g(h)\Vert^2 + \lambda \vert h \vert_1 + \gamma \Vert h-f(x)\Vert^
 
 We can use autoencoders to perform a variety of tasks - such as dimensionality reduction. 
 
-If we learn a binary coding, we can use this coding to determine similarity, to do a form of "semantic hashing", where we can use the Levinghstam distance of two codes to determine their similarity.
+If we learn a binary coding, we can use this coding to determine similarity, to do a form of **semantic hashing**, where we can use the Levinghstam distance of two codes to determine their similarity.
 
 
