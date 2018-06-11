@@ -99,7 +99,7 @@ $$w_i = \text{sign}(w_i^*) \max(0,(\vert w_i^*\vert - \frac{\alpha}{H_{ii}}))$$
 - This means that in the case where $w_i* \leq \frac{\alpha}{H_{ii}}$, the regularized learner sets $w_i = 0$, otherwise $w_i$ is shifted by $\frac{\alpha}{H_{ii}}$. 
 - L1 regularization results in sparse weights being learned, meaning that some of teh parameters hve their optimal value set to be 0. 
 - Therefore, L1 regularization can be considered as doing some sort of feature selection: the nonzero parameters indicate what features should be used. 
-- L1 regularization is equivalent to doing MAP estimation (basically MLE estimation with a prior on your weights) using a Laplacian prior, while L2 regularization is equivalent to imposing a Guassian prior on your weights.
+- L1 regularization is equivalent to doing MAP estimation (basically MLE estimation with a prior on your weights) using a Laplacian prior, while L2 regularization is equivalent to imposing a Gaussian prior on your weights.
 
 ...To be continued.
 
