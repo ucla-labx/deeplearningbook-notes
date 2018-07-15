@@ -1,4 +1,4 @@
-# [Deep Learning Book Notes](https://uclaacmai.github.io/deeplearning-book-notes)
+i# [Deep Learning Book Notes](https://uclaacmai.github.io/deeplearning-book-notes)
 
 Hi there, these are a collection of notes for the [Deep Learning Book](http://www.deeplearningbook.org/).
 
