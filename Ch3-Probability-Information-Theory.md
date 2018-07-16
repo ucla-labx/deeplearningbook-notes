@@ -87,5 +87,5 @@ $$p(y \mid x) = \frac{p(x \mid y)p(y)}{p(x)}$$
 - These simplified conditional expressions can be modelled as a directed graph, where nodes with no incoming edges do not depend on any other variables, and nodes' incoming edges denote the variables that they do depend on.
 - Given that the **directed** models have direced edges, we can compute $p(x)$ by tracing back it's connections with $p(x) = \prod_ip(x_i \mid P_{aG}(X_i))$
 - The probability of random variables is **proportional** to the product of all these factors. 
-![graphical_model](https://raw.githubusercontent.com/ucla-labx/deeplearning-book-notes/master/images/model.png) 
+![graphical_model](https://raw.githubusercontent.com/ucla-labx/deeplearningbook-notes/master/images/model.png) 
 - The above directed graphical model indicates that $e$ is conditioned on $c$, $c$ is conditioned on $b$ and $a$, etc. Also, we can see that $p(d) = p(d  \mid b) p(b)= p(d \mid b)p(b \mid a)p(a)$

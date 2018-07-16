@@ -26,7 +26,7 @@
     - default recommendation for nonlinearity in deep neural networks.
     - Piecewise linear, but unable to learn when $x < 0$
     - $f(x) = \max \{0, x\}$
-    ![relu](https://raw.githubusercontent.com/ucla-labx/deeplearning-book-notes/master/images/relu.png)
+    ![relu](https://raw.githubusercontent.com/ucla-labx/deeplearningbook-notes/master/images/relu.png)
     - Derivative of $f(x) = relu(x)$ with respect to input $x$ is $0$ when $x < 0$, and $1$ when $x > 0$. The gradient is technically undefined at $x = 0$, but is usually explicitly specified to be $0$. 
 
 
