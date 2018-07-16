@@ -15,7 +15,7 @@
 - Usually framed in terms of a minimization problem, i.e. find $x* = \arg \min_{x} f(x)$. 
 - Main idea of learning via gradient descent is to take a function $f(x)$, evaluate it's gradient $f'(x)$, and take a step in the negative direction: $x_1 = x_0 - \epsilon f'(x)$, and then (for small enough $\epsilon$) we know that $f(x_1) < f(x_0)$. 
 - When $f'(x) = 0$, we've reached a critical point, which can either be a local minimum, maximum, or saddle point: 
-  ![hi](https://raw.githubusercontent.com/uclaacmai/deeplearning-book-notes/master/images/saddlepoints.png)
+  ![hi](https://raw.githubusercontent.com/ucla-labx/deeplearning-book-notes/master/images/saddlepoints.png)
 
 - for a function $y=f(x)$, it's derivative is such that $f(x+\epsilon) \approx f(x) + \epsilon f'(x)$.
 - when we deal with multiple inputs, we use the **partial derivative** - $\frac{\partial}{\partial x_i}f(\textbf{x})$
