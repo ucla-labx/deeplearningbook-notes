@@ -1,4 +1,4 @@
-ii# [Deep Learning Book Notes](https://ucla-labx.github.io/deeplearningbook-notes)
+# [Deep Learning Book Notes](https://ucla-labx.github.io/deeplearningbook-notes)
 
 Hi there, these are a collection of notes for the [Deep Learning Book](http://www.deeplearningbook.org/).
 
