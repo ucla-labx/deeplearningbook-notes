@@ -18,3 +18,6 @@ These are still under construction, but if you see an error or would like someth
 ## Part II: Modern Practical Deep Networks
 
 [Chapter 6: Deep Feedforward Networks](https://ucla-labx.github.io/deeplearningbook-notes/Ch6-Feedforward-Neural-Networks)
+
+[Chapter 7: Regularization for Deep Learning](https://ucla-labx.github.io/deeplearningbook-notes/Ch7-Regularization)
+
