@@ -1,9 +1,11 @@
 # Chapter 6: Deep Feedforward Networks
 
+
+
 #### Introduction
 - Deep feedforward neural nets are also known as multilayer perceptrons
 - Goal is to approximate a function $f*(x)$ by learning a mapping $y = f(x; \theta)$ where $\theta$ are the paramters to be learned by the model
-- compose togethere many different functions, which can be represented by a DAG
+- compose together many different functions, which can be represented by a DAG
 - the final output of the model is called the **output layer**, while the intermediary layers are called **hidden layers**.
 
 
@@ -42,15 +44,16 @@
 - Specifically, the cross-entropy loss is the same as the negative log-likelihood. The likelihood of our dataset $D = {x_i, y_i}_
 - Likelihood: $p(x_i, y_i | \theta) = p(y_i | x_i; \theta)p(x | \theta)$
 - Data likelihood: $p(x_1, y_1 ... x_n y_n | \theta)$
-- Expand & IID assumption: $p(x_1, y_1 | \theta) * ... p(x_n, y_n | \theta) = \prod_i p(y_i | x_i; \theta)$
+- Expand & IID assumption: $p(x_1, y_1 | \theta) * ... p(x_n, y_n | \theta) = \prod_i p(y_i | x_i; \theta)$ (removing the $p(x_i \vert{} \theta)$ which the parameters do not influence)
 - Negative log-likelihood: - $\sum_i \log p(y_i | x_i \theta)$
 - If you set $p(y_i | x_i ; \theta) = N(y,  f(x; \theta), I)$ then you recover the mean-squared loss. 
 - Neural nets are generally trained to maximize the data likelihood, which basically means the network should come up with a ** point estimate ** of the parameters $\theta$ that make observing the data most likely. 
-- Maximum likelihood maximizes $p(D | \theta)$ whereas MAP estimation maximizes $p(\theta | D)$
-- $p(\theta | D) = \frac{p(D | \theta) * p(\theta)}{p(D)}$
+- $p(x)$
+- Maximum likelihood maximizes $$p(D | \theta)$$ whereas MAP estimation maximizes $p(\theta | D)$
+- $p(\theta | D) = \frac{p(D | \theta) * p(\theta)}{p(D)}$ but we generally discount the denominator since it is a normalization constant.
 - Main difference is that with MAP the parameters are no longer a point estimate
 - Many times CE cost does not have a minimum value when applied to models, but this can be mitigated through regularization. 
-
+- Generally, prefer to use the the CE loss instead of MSE or MAE (mean aboslute error)since using those loss functions with large networks and gradient-based learning results in saturation and very small gradients.
 - For learning to occur, we require a large, predictable gradient to serve as a guide for the weight updates. This is why the choice of activation functions are important; activations such as sigmoid generally cause learning to slow down or completely stop because they are ** saturating nonlinearities **, which means that their derivatives are zero at extreme values for the function. 
 - This is why the cross-entropy is commonly used as a cost function; it includes a $\log$ that undoes $\exp$ operations which could potentially cause saturation. 
 - 
@@ -107,10 +110,12 @@ Assume $h = f(x, \theta)$.
 - ** Universal Approximation Theorem ** states that a neural network with a single hidden layer with a nonlinearity can approximate any function. Essentially, we know that for any function that we are trying to learn, we know that there exists a setting of the params for the neural network such that we will be albe to represent that function, but this theorem ** says nothing about our ability to learn that function **. 
 - This theorem does not really apply well in practice, because the hidden layer generally has to be extremely large and the training algorithm will overfit on the training dataset.
 
-#### Alternatives to teh fully connected architecture
+#### Alternatives to the fully connected architecture
 - Convolutional networks only connect a limited number of neurons at each level. 
 - Recurrent networks make use of recurrent connections, sharing paramters across time. Skip connections in feedforward networks are also useful; they allow there to be connections from layer $i$ to for example layer $i + 3$, making it easier for the gradient to flow from output layer to earlier layers. 
 
 
 #### Backpropagation
-- Method for computing the derivatives of a function $f$ with respect to f's inputs or parameters. For example, in machine learning, we generally use backpropagation to compute the graident $\nabla_{\theta}J(\theta)$
+- Method for computing the derivatives of a function $f$ with respect to f's inputs or parameters. For example, in machine learning, we generally use backpropagation to compute the gradient $\nabla_{\theta}J(\theta)$
+
+#### 
