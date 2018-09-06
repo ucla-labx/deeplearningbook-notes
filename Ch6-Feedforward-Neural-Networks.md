@@ -24,39 +24,37 @@
 
 - we fix this problem by using a nonlinear function. We usually apply an affine transformation the input of a layer followed by a nonlinear activiation function (Sigmoid, ReLu, tanh). In neural networks, we then take the result of this function and forward it through more hidden layers, and end with an affine transformation at the end.
 
-    #### ReLu
-    - default recommendation for nonlinearity in deep neural networks.
-    - Piecewise linear, but unable to learn when $x < 0$
-    - $f(x) = \max \{0, x\}$
-    ![relu](https://raw.githubusercontent.com/ucla-labx/deeplearningbook-notes/master/images/relu.png)
-    - Derivative of $f(x) = relu(x)$ with respect to input $x$ is $0$ when $x < 0$, and $1$ when $x > 0$. The gradient is technically undefined at $x = 0$, but is usually explicitly specified to be $0$. 
+#### ReLu
+- default recommendation for nonlinearity in deep neural networks.
+- Piecewise linear, but unable to learn when $x < 0$
+- $f(x) = \max \{0, x\}$
+![relu](https://raw.githubusercontent.com/ucla-labx/deeplearningbook-notes/master/images/relu.png)
+- Derivative of $f(x) = relu(x)$ with respect to input $x$ is $0$ when $x < 0$, and $1$ when $x > 0$. The gradient is technically undefined at $x = 0$, but is usually explicitly specified to be $0$. 
 
 
 - The complete formulation of the network with a single hidden layer is $f(x; W, c, w, b) = w^T\max(0, W^Tx + c) + b$
 
 ## Gradient-Based Learning
 - The nonlinearities involved with deep learning make gradient based learning more complicated. 
-- The loss functions are no longer **convex**, whereas convex optimization could reliably be used with linear models in order to obtain the optimal parameters, which find the ** global minimum** of a cost function. 
+- The loss functions are no longer **convex**, whereas convex optimization could reliably be used with linear models in order to obtain the optimal parameters, which find the **global minimum** of a cost function. 
 - On teh other hand, the cost function with respect to deep neural networks are not convex, so  the best that gradient descent can do is reach a local minimum, and the solution is dependent on the initialization of the parameters. 
 
 #### Formulating Cost functions
-- In most cases our model defines a distribution $p(y | x; \theta)$ and we simply use maximum likelihood - which corresponds to taking the cross-entropy loss as the cost function. 
-- Specifically, the cross-entropy loss is the same as the negative log-likelihood. The likelihood of our dataset $D = {x_i, y_i}_
-- Likelihood: $p(x_i, y_i | \theta) = p(y_i | x_i; \theta)p(x | \theta)$
-- Data likelihood: $p(x_1, y_1 ... x_n y_n | \theta)$
-- Expand & IID assumption: $p(x_1, y_1 | \theta) * ... p(x_n, y_n | \theta) = \prod_i p(y_i | x_i; \theta)$ (removing the $p(x_i \vert{} \theta)$ which the parameters do not influence)
-- Negative log-likelihood: - $\sum_i \log p(y_i | x_i \theta)$
-- If you set $p(y_i | x_i ; \theta) = N(y,  f(x; \theta), I)$ then you recover the mean-squared loss. 
-- Neural nets are generally trained to maximize the data likelihood, which basically means the network should come up with a ** point estimate ** of the parameters $\theta$ that make observing the data most likely. 
+- In most cases our model defines a distribution $p(y \mid x; \theta)$ and we simply use maximum likelihood - which corresponds to taking the cross-entropy loss as the cost function. 
+- Likelihood: $p(x_i, y_i \mid \theta) = p(y_i \mid x_i; \theta)p(x \mid \theta)$
+- Data likelihood: $p(x_1, y_1 ... x_n y_n \mid \theta)$
+- Expand & IID assumption: $p(x_1, y_1 \mid \theta) * ... p(x_n, y_n \mid \theta) = \prod_i p(y_i \mid x_i; \theta)$ (removing the $p(x_i \mid{} \theta)$ which the parameters do not influence)
+- Negative log-likelihood: - $\sum_i \log p(y_i \mid x_i \theta)$
+- If you set $p(y_i \mid x_i ; \theta) = N(y,  f(x; \theta), I)$ then you recover the mean-squared loss. 
+- Neural nets are generally trained to maximize the data likelihood, which basically means the network should come up with a **point estimate** of the parameters $\theta$ that make observing the data most likely. 
 - $p(x)$
-- Maximum likelihood maximizes $$p(D | \theta)$$ whereas MAP estimation maximizes $p(\theta | D)$
-- $p(\theta | D) = \frac{p(D | \theta) * p(\theta)}{p(D)}$ but we generally discount the denominator since it is a normalization constant.
+- Maximum likelihood maximizes $$p(D \mid \theta)$$ whereas MAP estimation maximizes $p(\theta \mid D)$
+- $p(\theta \mid D) = \frac{p(D \mid \theta) * p(\theta)}{p(D)}$ but we generally discount the denominator since it is a normalization constant.
 - Main difference is that with MAP the parameters are no longer a point estimate
 - Many times CE cost does not have a minimum value when applied to models, but this can be mitigated through regularization. 
 - Generally, prefer to use the the CE loss instead of MSE or MAE (mean aboslute error)since using those loss functions with large networks and gradient-based learning results in saturation and very small gradients.
-- For learning to occur, we require a large, predictable gradient to serve as a guide for the weight updates. This is why the choice of activation functions are important; activations such as sigmoid generally cause learning to slow down or completely stop because they are ** saturating nonlinearities **, which means that their derivatives are zero at extreme values for the function. 
+- For learning to occur, we require a large, predictable gradient to serve as a guide for the weight updates. This is why the choice of activation functions are important; activations such as sigmoid generally cause learning to slow down or completely stop because they are **saturating nonlinearities** , which means that their derivatives are zero at extreme values for the function. 
 - This is why the cross-entropy is commonly used as a cost function; it includes a $\log$ that undoes $\exp$ operations which could potentially cause saturation. 
-- 
 
 #### Output Units
 Most times, we use the CE loss between the data distribution and the model distribution - as such, the output units we pick determines the from of the CE loss. 
@@ -66,13 +64,9 @@ Assume $h = f(x, \theta)$.
 #### Output activations
 - The choice of output activations is important since we need to make sure that the gradients of these outputs are not frequently $0$, or else learning will not occur. For example, if we use the $CE$ loss with a ReLU ouput unit, the gradient of the output of the model with respect to the last layer will frequently be $0$, which when backpropagated, will result in no weight updates. 
 - Generally, use the sigmoid or softmax activations at the output of a network if you're optimizing the cross-entropy loss, otherwise have the outputs of your network just be the unchanged affine transformation.
-
 - Sigmoid units can be used for Bernoulli output distributions, or **binary classification**. 
 - If we were to use a linear unit, then we would have to threshold it, which could lead to difficult gradients to train.
-
 - One useful property of the softmax function is that $$ softmax(z) = softmax(z+c)$$, so we can avoid numerical computation problems by computing $$ softmax(z) = softmax(z- max_i{z_i})$$
-- 
-
 
 #### Other Output Types
 - If you want to learn the variance/covariance of a distribution, you can learn it as a parameter. 
@@ -94,7 +88,7 @@ Assume $h = f(x, \theta)$.
 - The pros of the relu unit include faster convergence, behaves linearly when it's active, and does not scale gradients down during backpropagation, it rather just "passes them through" the unit. 
 - However, learning does not happen for examples with $0$ activation, which can lead to the "dying ReLU" problem which is when a ReLU neuron never activates, such as if its weights are not initialized properly or if a gradient update knocks them in a certain direction (literally what [Karpathy's post](https://medium.com/@karpathy/yes-you-should-understand-backprop-e2f06eab496b) says). 
 - The softplus unit $\log(1 + \exp(x))$ is a soft approximation of the ReLU who's derivative is the sigmoid function. 
-- The ** leaky relu** seeks to solve teh dying ReLU problem by passing a smaller gradient when $x < 0$ and the unit is not active in teh forward pass. It is given by $\max(\alpha x, x)$ where $\alpha$ is a hyperparameter generally set to some small value like $0.01$. In the similar PReLU, this $\alpha$ is actually a parameter that can be optimized during learning.
+- The **leaky relu** seeks to solve teh dying ReLU problem by passing a smaller gradient when $x < 0$ and the unit is not active in teh forward pass. It is given by $\max(\alpha x, x)$ where $\alpha$ is a hyperparameter generally set to some small value like $0.01$. In the similar PReLU, this $\alpha$ is actually a parameter that can be optimized during learning.
 - The exponential linear unit, or ELU, is another activation function that's designed to approximate the ReLU but also avoid teh stopping of learning when the unit is not active. It is given by $f(x) = \max(\alpha(\exp(x) - 1), x)$. 
 
 #### Output Activations
@@ -107,7 +101,7 @@ Assume $h = f(x, \theta)$.
 #### Architecture Design
 - Fully connected architecture: $h^1 = g^1(W^{1T}x + b^1)$ ... and so on, for however many layers that you have in the network
 - Deeper networka generally have less units per layer and much fewere parameters, but generalize better, but are more computationally complex to train, and harder to optimize, because the vanishing/exploding gradient problem becomes more apparent.
-- ** Universal Approximation Theorem ** states that a neural network with a single hidden layer with a nonlinearity can approximate any function. Essentially, we know that for any function that we are trying to learn, we know that there exists a setting of the params for the neural network such that we will be albe to represent that function, but this theorem ** says nothing about our ability to learn that function **. 
+- **Universal Approximation Theorem** states that a neural network with a single hidden layer with a nonlinearity can approximate any function. Essentially, we know that for any function that we are trying to learn, we know that there exists a setting of the params for the neural network such that we will be albe to represent that function, but this theorem **says nothing about our ability to learn that function**. 
 - This theorem does not really apply well in practice, because the hidden layer generally has to be extremely large and the training algorithm will overfit on the training dataset.
 
 #### Alternatives to the fully connected architecture
@@ -117,5 +111,3 @@ Assume $h = f(x, \theta)$.
 
 #### Backpropagation
 - Method for computing the derivatives of a function $f$ with respect to f's inputs or parameters. For example, in machine learning, we generally use backpropagation to compute the gradient $\nabla_{\theta}J(\theta)$
-
-#### 

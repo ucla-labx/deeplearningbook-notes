@@ -64,7 +64,7 @@
 ## Constrained Optimizattion
 
 - Limit the minimum and maximum values of $x$ to have to be in some set, known as the feasible points.
-- Common to impose a norm constraint such as $\Vert{x}\Vert <= 1$. 
+- Common to impose a norm constraint such as $\Vert{x}\Vert \leq 1$. 
 - One way of satisfying this constraint is to use **projected gradient descent**, i.e. take the gradient update normally and project it back into the feasible set
 - Another way is to rewrite the constrained problem as a modified unconstrained problem. For example, if we want to find the minimum $x$ for some $f(x)$ such that $x$ has unit norm, we could rewrite this as $\min_{\theta} f(\cos\theta, \sin\theta)$ and return $\cos \theta$ an $\sin \theta$ as our solution.
 
@@ -76,7 +76,7 @@
 - When the constraints are not satisfied, we can set values for $\lambda_i$ or $\alpha_j$ such that  the lagrangian is infinity. This means that no infeasible point can be optimal. 
 - On the other hand, when the constraints are satisfied, we can show that $\max_{\lambda} max_{\alpha, \alpha \geq 0} L(x, \lambda, \alpha) = f(x)$. This is because when the constraints are satisfied, then the second term will vanish, and the optimal setting give our constraints for the third term is to have $\alpha_j h_j(x) = 0 \forall j$. 
 - if a constraint is not active, then the solution found woud remaina solution of that constraint was removed. An inactive $h^{i}$ forces all $\alpha$ to be 0.
-- To check for optimal points, we can apply the KKT conditions. NOte that these conditons are necessary but not sufficient, meaning that if we know that a point satisfies these properties, we can't immediately say that it is optimal.
+- To check for optimal points, we can apply the KKT conditions. Note that these conditons are necessary but not sufficient, meaning that if we know that a point satisfies these properties, we can't immediately say that it is optimal.
     - The gradient of the generalized Lagrangian is 0
     - All constraints on both $x$ and the inequallity/equality constraints are satisfied
     - $\forall \alpha_i h_i(x), \alpha_i h_i(x) = 0$. This is called "complementary slackness". 

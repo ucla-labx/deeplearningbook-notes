@@ -16,6 +16,7 @@ Most deep learning regularization strategies try to trade increased bias for red
 #### Paramter Norm Penalites
 
 We can try to limit the capacity of models by adding a penalty term $\Omega(\theta)$ to the cost function.
+
 $$ \tilde{J}(\theta, X, y) = J(\theta, X, y) + \alpha \Omega(\theta)$$
 
 The $\alpha$ term corresponds to the relative contribution of the regularization penalty to the overall cost/loss.
@@ -37,7 +38,9 @@ Taking the gradient of this cost function yields
 
 $$\nabla_w \tilde{J}(\theta, X, y) = \alpha w + \nabla_w J(\theta, X, y) $$
 
-So for a single gradient step, $$ w \leftarrow (1- \epsilon \alpha)w - \epsilon \nabla_w J(w; X,y) $$.
+So for a single gradient step,
+
+$$ w \leftarrow (1- \epsilon \alpha)w - \epsilon \nabla_w J(w; X,y) $$
 
 #### Effect of L2-Regularization on parameters learned
 
@@ -53,11 +56,7 @@ So for a single gradient step, $$ w \leftarrow (1- \epsilon \alpha)w - \epsilon 
 - This intuitively makes sense because we want to penalize the weights in directions that do not have a high curvature (and thus do not contribute significantly to reducing the objective), so we have a high reguarlization penalty. On the other hand, for weights in the directions of high curvature, we do not regularize those weights as much since they contribute significantly to reducing the overall cost function.
 
 
-- For linear regression, adding in L2 regularization alters the normal equation solutions for $w$ from 
-
-$$w = (X^TX)^{-1} XTy$$ 
-
-to $$w = (X^TX + \alpha I)^{-1} XTy$$. This makes linear regression shrink weights on features whose covariance is low compared to the added variance $\alpha I$
+- For linear regression, adding in L2 regularization alters the normal equation solutions for $w$ from $$w = (X^TX)^{-1} XTy$$ to $$w = (X^TX + \alpha I)^{-1} XTy$$. This makes linear regression shrink weights on features whose covariance is low compared to the added variance $\alpha I$
 
 #### L1 Regularization
 - L1 regularization places a penalty on the absolute values of the weights rather than their squared norm as L2-regularization does. It is defined as $$\Omega(w) = \sum_i (\vert w_i \vert)$$.
@@ -81,16 +80,13 @@ In the case when $w_i$ is negative $w_i$ - $\frac{\alpha}{H_{ii}}$ is negative.
 When $w_i$ is 0, we get $w_I^*$ is 0 as well.
 Thus, $$\text{sign} (w_i^*) = \text{sign}(w_i)$$
 
-
-
-
 This gives us the following expression for $w_i$: $$w_i = \frac{-\alpha}{H_{ii}}\text{sign}(w_i*) + w_i*$$
 
-Using the property $\frac{w_i^*}{\text{sign}(w_i^*)} = \vert w_i^* \vert$
+Using the property $\frac{w_i^* }{ \text{sign} (w_i^* )} = \vert w_i^* \vert$
 
 $$w_i = \text{sign}(w_i^*) (\vert w_i^*\vert - \frac{\alpha}{H_{ii}})$$
 
-However, this is not yet complete: if $(\vert w_i^*\vert - \frac{\alpha}{H_{ii}}) < 0$, then the sign of $w_i$ will get flipped: it will no longer take the sign of $w_i$. Since we've shown above that $sign(w_i*) = sign(w_i)$, we enforce that the quantity cannot be less than $0$:
+However, this is not yet complete: if $(\vert w_i^* \vert - \frac{\alpha}{H_{ii}}) < 0$, then the sign of $w_i$ will get flipped: it will no longer take the sign of $w_i$. Since we've shown above that $sign(w_i*) = sign(w_i)$, we enforce that the quantity cannot be less than $0$:
 
 $$w_i = \text{sign}(w_i^*) \max(0,(\vert w_i^*\vert - \frac{\alpha}{H_{ii}}))$$
 

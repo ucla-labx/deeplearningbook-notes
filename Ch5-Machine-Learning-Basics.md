@@ -1,7 +1,6 @@
 # Chapter 5: Machine Learning Basics
 
 - Most machine learning algorithms have hyperparameters to set. 
-
 - machine learning learns from experience E to do some task T with performance measure P. 
 
 #### Machine Learning Tasks
@@ -9,9 +8,6 @@
     - such as detecting what a handwritten digit is
 
 - Algorithms learn frm many examples; each example is composed of a collection of features that reprsent the object. 
-
-
-
 - **classification** - function that produces categories for each input, can also deal with missing inputs 
 - **regression** - predict numerical value (like housing value) given some input (like number of rooms)
 - **transciprtion** - asked to transcribe some relatively unstructured representation into text - like speech recognition. 
@@ -67,11 +63,10 @@ We must design good performance metrics.
 - **Non parametric** models don't have fixed sized parameters. 
 - **Bayes error** refers to the error an oracle who has access to the true porbability dstribution $p(x,y)$ would get. 
 - **No free lunch theorem** states that no machine learning model is better than another when classifying examples over all possible data generating distributions - all models do the same when evaluated over **all possible tasks**. This means that there's no machine learning algorithm that's universally better than another one, but certain algorithms are obviously better for certain tasks. 
-- 
-  *
+
 #### Reguralization
 We can add preferences into our learning algorithms. For example, **weigh decay** we perfer small $w$ by adding on a term to the cost function. 
-$$ J(w) = MSE_{train} + \lambda w^Tw$$
+$$J(w) = MSE_{train} + \lambda w^Tw$$
 - This penalty term is called a **regularizer** and expresses preferences for one function over another. 
 - Regularization is defined as adding a function to a model's loss function that's not going to reduce it's training error, but the purpose is to reduce it's expected test/generalizaiton error. 
 
@@ -152,12 +147,10 @@ $$ \theta_{MAP} = argmax_{\theta} p(\theta \mid x) = argmax_\theta \log p(x \mid
 - Next, we can replace the examples $x$ with a feature transformation $\phi(x)$, which takes $x$ and possibly expands it to a very large dimensional vector. Then, we'd have to compute the feature transformations $\phi(x)$ and the inner products $\phi(x)^T\phi(x^i)$. This can turn out to be extremely expensive, or for some feature spaces, impossible. 
 - This is where the **kernel** comes in. We replace the expensive inner product $\phi(x)^T\phi(x^i)$ with a function of variables in the original feature space: $k(x, x^i)$. This means that by computing this function, we can represent the dot product in a high dimensional feature space without actually computing the vector in that feature space and taking the dot product. 
 - Sometimes, $k$ also enables us to represent an infinite dimensional feature space. The kernel function must satisfy certain properties, namely that it can be expressed as an inner product between 2 variables in some feature space. See [here](https://github.com/rohan-varma/CS-188/blob/master/notes/Lecture%2011%20-%20Kernel%20Methods.ipynb) for a set of notes on kernel techniques and different types of kernels.    
-
-
 - The most commonly used kernel is the **gaussian kernel**  $$k(u,v) = N(u-v; 0, \sigma I)$$. It is also known as the radial basis function or RBF kernel. 
     - This performs a kind of template matching where points close to a previously classified point are most likely going to be the same class. 
 
-- More generally there are nonparametric learning algorithms like $k$-nearest-neighbors. However knn sometimes suffers because it assumes that all features have the same relative importance. Another learning algorithm is the **deciscion tree** which divides its input space into regions. They can be trained via **entropy** or the **Gini coefficient**. 
+- More generally there are nonparametric learning algorithms like $k$-nearest-neighbors. However $k$-neares-neighbors sometimes suffers because it assumes that all features have the same relative importance. Another learning algorithm is the **deciscion tree** which divides its input space into regions. They can be trained via **entropy** or the **Gini coefficient**. 
 
 ## Unsupervised Learning Algorithms
 
@@ -204,10 +197,8 @@ SGD is $O(k)$ runtime instead of $O(m)$ where $k$ is the batch size, and is $k <
 - Curse of dimensionality example: say we have a 10-dimensional feature vector, where each feature can range between 100 different values. That means that the data space we are working in is $10^100$ dimensional, and there's no way we can get enough data samples to even get a small fraction of that space. 
 - Basically the idea of the curse of dimensionality is that we are generally working with a small cluster of data from the true data space. As the dimensionaility increases, points grow further and further apart as the space becomes more sparse and clustered. 
 - There are certain priors about the functions that we want to learn. In particular, we want to learn a finction $$f*(x) \approx f*(x+\epsilon)$$. That is, the output of our function on some unseen datapoint that is close to a datapoint is closely related to the output of that close seen datapoint.
-
 - A local kernel used by a kernel machine can be thought of as a similarlity functiont hat performs a "template matching" by measuring how much an example $x$ is similar to a training example of $x_i$. 
 - Some of the modern motivation for deep learning is due to overcoming the limits of this template matching approach.
-
 - The main question is that can we represent a complicated function, such as one that distinguishes between $O(2^k)$ regions, without having an exponential number of training examples? 
 - This is difficult for many traditional machine learning algorithms, but the key idea is that deep learning can do this well by introducing dependencies between regions and making adssumptions about the data generating distribution. 
 - Core idea of deep learning: assume tht the data were generated by a composition of the data's features, in a hierarchical fashion.
@@ -215,10 +206,8 @@ SGD is $O(k)$ runtime instead of $O(m)$ where $k$ is the batch size, and is $k <
 
 #### Manifold Learning
 - **manifold** is a lower dimesional connected region. Each dimension corresponds to a local direction of variation. 
-
 - **Manifold learning** algorithms assume that the input space $R^n$ consists of mostly invalid inputs (i.e. feature vectors that cannot actually occur), and that inputs occur only on a collection of different manifolds in the space $R^n$. 
 - Variations in the outputs occur only along directions that lie on the manifolds, or when the input moves from one manifold to another. 
 - So basically the output is assumed to only come from manifolds of the data, not the whole data space. 
-
 - **manifold hypothesis** is supported by the fact that text,speech, and image data is all fairly structured and doesn't resemble unioform noise. We can also think of these directions of variation as transformations. For example, rotating an object may move a training example along it's manifold. 
   The data is assumed to come from a concentrated probability distributions, that can be represented by manifolds. For example, in image recognition, you're not likely to have an input that consists of uniform random noise. 
