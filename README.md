@@ -21,3 +21,6 @@ These are still under construction, but if you see an error or would like someth
 
 [Chapter 7: Regularization for Deep Learning](/deeplearningbook-notes/Ch7-Regularization)
 
+## Part III: Deep Learning Research
+
+[Chapter 14: Autoencoders](/deeplearningbook-notes/Ch14-Autoencoders)

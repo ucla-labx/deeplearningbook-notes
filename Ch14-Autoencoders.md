@@ -47,7 +47,6 @@ The manifold has tangent planes (similar to tangent lines). These tangent lines 
 1. We need to learn a representation $$h$$ such that we can reconstruct $$x$$
 2. We need to satisfy constraint/regularization penalty.
 
-
 As such, we learn variations along the manifold - we need to know this because we must remap onto the manifold in the case of a denoising autoencoder.
 
 Most early research was based on nn approaches - we try to solve a linear system to get "pancakes", tying these pancakes togethere to form a global system. 
@@ -70,7 +69,6 @@ This is a hybrid of sparse and parametric autoencoders, where we try to
 $$ min \Vert x-g(h)\Vert^2 + \lambda \vert h \vert_1 + \gamma \Vert h-f(x)\Vert^2$$
 
 
-### Applications of Autoencoders
 
 We can use autoencoders to perform a variety of tasks - such as dimensionality reduction. 
 
