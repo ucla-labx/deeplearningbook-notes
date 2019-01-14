@@ -170,10 +170,3 @@ This combines both unsupervised and unsupervised learning.
 We can construct a model that shares parameters between a generative model $P(x)$ and a disciminiative model $P(y \mid x)$. Our cost function can be scaled between maxamizing either loss - either the MLE of the generative model or the MLE of the discriminative model. 
 
 The generative criterion thus expresses some prior belief about the data. 
-
-### Multitask Learning
-
-We can 
-
-
-
