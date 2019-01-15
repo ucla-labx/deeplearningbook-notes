@@ -36,7 +36,7 @@
 ## Higher Order Methods
 - sometimes we need to find the partial derivates of a vector valued function, which gives us a **Jacobian** matrix. For a function $f: R^m \rightarrow R^n$ the Jacobian $\textbf{J}_{n,m}$ is defined so $J_{i,j} = \frac{\partial}{\partial x_j}f(\textbf{x})_i$
 
-- The second derivative of a function is a measure of the function's curvature. In the vector setting, the second derivative is given by the **Hessian Matrix**, a matrix of second-order partial derivatives. It's elements are denoted by $H(f)(x)_{i,j} = \frac{d^2}{d_{x_ix_ij}} f(x)$. 
+- The second derivative of a function is a measure of the function's curvature. In the vector setting, the second derivative is given by the **Hessian Matrix**, a matrix of second-order partial derivatives. Its elements are denoted by $H(f)(x)_{i,j} = \frac{d^2}{d_{x_ix_ij}} f(x)$. 
 - Since the Hessian is real and symmetric, it can be decomposed into eigenvalues and an orthogonal basis of eigevencectors $d^THd$. When $d$ is an eigenvector of $H$, the second derivative in that direction is given by that eigenvalue, so the max eigenvalue gives the maximum second derivative while the min eigenvalue gives the min second derivative.
 - We can use the directional second order derivative to figure out how well a gradient descent step may perform. 
 
