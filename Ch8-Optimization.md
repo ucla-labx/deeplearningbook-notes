@@ -15,7 +15,7 @@
     - By linearity of expectation, we have $$\frac{1}{m}\sum_{i=1}^{m}\mathbb{E_D}[ L(f(x_i;\theta), y_i)]$$ 
     - Since we use IID assumptions, this is the same as calculating the expectation for any sample from the data generating distribution: $$\frac{1}{m}\sum_{i=1}^{m}\mathbb{E_D}[ L(f(x;\theta), y)]$$, making the sum term the same as the true risk.
     - This result provides us some assurance that empirical risk minimization is a good strategy to also approximate minimizing the true risk, though we can also show that there exist learners for which the true risk is $1$ and the empirical risk is $0$. 
-- Often, we can't even use empirical risk minimization directly, due to our loss function $L$ being infeasible to optimize - such as the 0/1 loss function.
+-  If $$L$$ is the 0-1 loss, then we generally cannot use this function directly, since optimizing on it is intractable.
 - To work around this, a **surrogate loss function** is often used, such as the negative log-likelihood, as an approximation for the 0/1 loss.
 - We can also compute the 0/1 loss across validation data during training, and when it stops decreasing it may be an indication for early stopping.
 
