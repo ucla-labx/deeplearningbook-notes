@@ -3,13 +3,18 @@
 #### Introduction
 - Overall goal: find parameters $\theta$ of a neural network that optimize a defined cost function $J(\theta)$
   - $J$ is generally some quantification of our "performance" over teh training data as well as additional regularization terms
-- In actuality, we'd like to minimize $$J(\theta) = \mathbb{E}_{(x,y) ~ p_{data}} L(f(x;\theta), y)$$ 
+- In actuality, we'd like to minimize $$J(\theta) = \mathbb{E}_{(x,y) \tilde{} p_{data}} L(f(x;\theta), y) = \int_{(x, y) \in{D}}{L(f(x;\theta), y)p(x,y)}$$ 
   - This is the loss across the entire data generating distrbution, and is intractable, since we don't have access to the data generating distribution
   - This quantity is also known as the "risk"
 
 #### Empirical Risk Minimization
 
-- We approximate the above quantity by minimizing across the training data: $$\frac{1}{m}\sum_{i=1}^{M} L(f(x;\theta), y)$$ 
+- We approximate the above quantity by minimizing across the training data: $$\frac{1}{m}\sum_{i=1}^{m} L(f(x_i;\theta), y_i)$$ 
+  - This is known as the empirical risk, since it is computed across the data we have observed, which is a subset of the actual data
+    - We can show that the expectation of the empirical risk across the data generating distribution: $$\mathbb{E}_D[\frac{1}{m}\sum_{i=1}^{m} L(f(x_i;\theta), y_i)] = \frac{1}{m}\mathbb{E_D}\sum_{i=1}^{m} L(f(x_i;\theta), y_i)$$ 
+    - By linearity of expectation, we have $$\frac{1}{m}\sum_{i=1}^{m}\mathbb{E_D}[ L(f(x_i;\theta), y_i)]$$ 
+    - Since we use IID assumptions, this is the same as calculating the expectation for any sample from the data generating distribution: $$\frac{1}{m}\sum_{i=1}^{m}\mathbb{E_D}[ L(f(x;\theta), y)]$$, making the sum term the same as the true risk.
+    - This result provides us some assurance that empirical risk minimization is a good strategy to also approximate minimizing the true risk, though we can also show that there exist learners for which the true risk is $1$ and the empirical risk is $0$. 
 - Often, we can't even use empirical risk minimization directly, due to our loss function $L$ being infeasible to optimize - such as the 0/1 loss function.
 - To work around this, a **surrogate loss function** is often used, such as the negative log-likelihood, as an approximation for the 0/1 loss.
 - We can also compute the 0/1 loss across validation data during training, and when it stops decreasing it may be an indication for early stopping.
@@ -27,6 +32,9 @@
 
 - Said to happen when the Hessain $H$ is large compared to the gradient norm, and even a very small step in the direction of the gradient would actually increase the cost function rather than decreasing it as desired
 - How to find ill conditioning: the Taylor series expansion. Recall that we can have a 2nd order approximation of $f$ at $x_0$: $f(x) \approx f(x_0) + f'(x_0)(x - x_0) + \frac{1}{2}f''(x_0)(x-x_0)^2$. If we let $\textbf{g}$  denote the first derivative and $\textbf{H}$ denote the 2nd derivative, then we have $f(x)\approx f(x_0) + (x-x_0)\textbf{g} + \frac{1}{2}(x-x_0)^T\textbf{H}(x-x_0)$. where $x$ and $x_0$ are now vector-valued.
+- The normal gradient descent update would give us $$f(x_0-\epsilon g) \approx f(x_0) + (x_0 - \epsilon g - x_0)g + \frac{1}{2}(x_0 - \epsilon g - x_0)^T\textbf{H}(x_0 - \epsilon g - x_0) $$ $$ = f(x_0) -\epsilon g^Tg+\frac{1}{2}\epsilon^2g^T\textbf{H}g $$
+- For gradient descent to give us a smaller value for $f$, we require  $$-\epsilon g^Tg+\frac{1}{2}\epsilon^2g^T\textbf{H}g < 0$$ or $$\epsilon g^Tg > \frac{1}{2}\epsilon^2g^T\textbf{H}g$$. This tells us that if the Hessian gets too large, then the right hand term may be greater than the left hand term, and thus gradient descent won't actually reduce our cost function.
+  - If we note that during training the $$g^T\textbf{H}g$$ term is getting much larger than the $$g^Tg$$ term, we could further scale the learning rate to keep the right hand term smaller.  
 
 #### Issue w/Optimization:  Saddle Points/Local Minima
 
@@ -54,6 +62,8 @@
 
 - The vanishing/exploding activations/gradient problem:
   - Consider a deep feedforward network that just successively multiplies its input by a matrix $W$ $t$ times. If $W$ has an eigendecomposition $W = V\mathbb{diag}(\lambda)V^{-1}$ then $W^t = V\mathbb{diag}(\lambda)^tV^{-1}$, so unless the eigenvalues are all around an absolute value of $1$, we will have the vanishing/exploding activation problem, and the gradient propagating backwards scales similarly. 
+  - Research into this problem has yielded several techniques, most notably Batch Normalization and weight initialization schemes such as He & Xavier initialization to ensure that activation and gradients have healthy norms throughout the training process. The central idea revolves around ensuring that the variances between successive layers stays at $1$ instead of converging to $0$. 
+  - Gradient clipping, especially in RNNs, has been shown to alleviate the exploding gradient problem - the gradient is thought of more as a direction to travel in in the optimization landspace, and not necessarily the amount to travel. LSTM cells also largely avoid the exploding gradient problem.
 
 #### Issue w/Optimization: Poor Correspondence Between Local & Global Structure
 
