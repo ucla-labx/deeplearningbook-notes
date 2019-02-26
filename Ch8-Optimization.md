@@ -128,9 +128,9 @@
 
     - Gradient would be largest when they're all large gradients that point in the same direction, smallest when all gradients point in different (and opposite/cancelling) directions
 
-  - Momentum allows us to go "along the ravine" instead of "across the ravine", because we have influence from previous gradients
+  - Momentum allows us to go "along the ravine" instead of "across the ravine", because we have influence from previous gradients. In the following pictures, regular SGD would have osciallted across the ravine but now we go down torwards the local minimum faster.
 
-    ![]
+    ![](https://raw.githubusercontent.com/ucla-labx/deeplearningbook-notes/master/images/along_the_ravine.png)
 
 
 	#### Nesterov Momentum
@@ -146,8 +146,6 @@
   $$ \theta \leftarrow{} \theta + v$$
 
 - The main difference is that the gradient in nesterov momentum is evaulated **after** the parameters are adjusted by the (scaled) momentum factor, so we interpret this as adding a "correction" factor to the regular momentum method
-
-
 
 #### Parameter Initialization Strategies
 
@@ -197,6 +195,16 @@
 - Learning rates are hard to set, and it has been shown that that the cost can sometimes be extremely sensitive to certain directions in the parameter space and insensitive to others. This motivates the desire for per-parameter learning rates
 
 - **AdaGrad**
+
+  - Adapt learning rates per-parameter
+  - Each parameter's learning rate is scaled inverserly proportional by the square-rooted sum of all previous squared gradients 
+  - Parameters with large gradients therefore have smaller effective learning rates, and parameters with small gradients therefore have larger effective learning rates
+  - Intuition: parameters with large gradients represent more intense curvature and changing directions across the optimization surface, while parameters with smaller gradients correspond to more consistent and gentle curvature. So we want to have larger gradient influence in the latter, while less in the former
+  - A common criticism is that since it accumulates gradients from the start of training (when gradients are usually large) the algorithm decreases the effective learning rate too quickly to be effective
+
+- **RMSProp**
+
+  - ​
 
   ​
 
