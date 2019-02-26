@@ -128,8 +128,77 @@
 
     - Gradient would be largest when they're all large gradients that point in the same direction, smallest when all gradients point in different (and opposite/cancelling) directions
 
-    ​
+  - Momentum allows us to go "along the ravine" instead of "across the ravine", because we have influence from previous gradients
 
+    ![]
+
+
+	#### Nesterov Momentum
+
+- Variant of the momentum algorithm that consists of "taking the step" first in the direction of the momentum vector, and then "correcting" your parameters by the gradient there
+
+  - Instead of the gradient where you currently are
+
+- Updates:
+
+  $$ v \leftarrow{} \alpha v - \epsilon \nabla_\theta \frac{1}{m}\sum_{i=1}^{m} L(f(x^i; \theta + \alpha v), y^i) $$
+
+  $$ \theta \leftarrow{} \theta + v$$
+
+- The main difference is that the gradient in nesterov momentum is evaulated **after** the parameters are adjusted by the (scaled) momentum factor, so we interpret this as adding a "correction" factor to the regular momentum method
+
+
+
+#### Parameter Initialization Strategies
+
+- Deep learning optimization: no convergence guaranted, several things affected by initial point, including whether the loss actually converges at all, and converges to a point with good generalizaiton error
+
+  - Points of comparable cost can have wildly different results when tested (generalization error)
+
+- Goal of initialization: have each unit compute a different function, in order to "break symmetry"
+
+  - Need to break symmetry otherwise if each units have the same parameter values initially and are connected with the same inputs, the training process will cause them to be updated identically
+
+- Weights generally initialized randomly from a Gaussian or Uniform distribution
+
+- Scale of initialization is important to consider
+
+  - Large weights: May result in more "symmetry-breaking" and may result in larger forward and backward pass signals initially, but at a cost:
+    - Exploding gradients
+    - "Chaos" in RNNs: extreme sensitivity to slight perturbations
+    - Early saturation of certain activation functions (for example sigmoids)
+  - Optimization suggests that we have larger weights (more signal to propagate information) while regularization encourages our weights to be smaller
+  - Earlier it was shown that for some models, GD with early stopping is similar to $$L2$$ weight decay, and this provides an analogy of thinking of our parameter initializations as defining a prior distribution.
+  - Concretely, we can think of initializing our params $\theta$ to $\theta_p$ to be imposing a Gaussian prior with mean $\mu = \theta_p$ on our model.
+  - If we believe that our units don't interact with each other rather than they do interact, we should set $\theta_p = 0$. A large $\theta$ would mean that we have prior belief that our units do indeed interact with each other
+
+- Glorot & Bengio's normal initialization:
+
+  $$ W_{i,j} = U(-\sqrt{\frac{6}{m+n}}, \sqrt{\frac{6}{m+n}})$$  where $$ m$$ is the number of inputs into the layer and $$ n $$ is the number of outputs of the layer
+
+  - This is meant to compromise between having the same activation variance and gradient variance
+    - This is desired so that we don't have the "vanishing gradient" problem, and is similar to why we use batch normalization.
+
+- Generally a good idea to treat the initial scale of the weights and hyperparameter search across it, as long as computational resources allow for this
+
+- Another way to come up with a good weight initialization is to look at the activation and gradient variances of your model when a single batch of data is input. 
+
+  - If you see activations start to vanish, that's a good sign that you need to increase the value of your weights
+  - If learning is still too slow, this will likely be indicated by vanish gradients in the backward pass
+
+- Another common way to initialize parameters is by using unsupervised learning or supervised learning for a different task
+
+  - Train for an unsupervised problem —> these parameters may encode information about the distribution of the training data, which may be better than random initalization
+
+
+
+#### Adaptive Learning Rate Algorithms
+
+- Learning rates are hard to set, and it has been shown that that the cost can sometimes be extremely sensitive to certain directions in the parameter space and insensitive to others. This motivates the desire for per-parameter learning rates
+
+- **AdaGrad**
+
+  ​
 
 
 
