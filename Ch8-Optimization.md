@@ -2,7 +2,7 @@
 
 #### Introduction
 - Overall goal: find parameters $\theta$ of a neural network that optimize a defined cost function $J(\theta)$
-  - $J$ is generally some quantification of our "performance" over teh training data as well as additional regularization terms
+  - $J$ is generally some quantification of our "performance" over the training data as well as additional regularization terms
 - In actuality, we'd like to minimize $$J(\theta) = \mathbb{E}_{(x,y) \tilde{} p_{data}} L(f(x;\theta), y) = \int_{(x, y) \in{D}}{L(f(x;\theta), y)p(x,y)}$$ 
   - This is the loss across the entire data generating distrbution, and is intractable, since we don't have access to the data generating distribution
   - This quantity is also known as the "risk"
@@ -11,11 +11,12 @@
 
 - We approximate the above quantity by minimizing across the training data: $$\frac{1}{m}\sum_{i=1}^{m} L(f(x_i;\theta), y_i)$$ 
   - This is known as the empirical risk, since it is computed across the data we have observed, which is a subset of the actual data
-    - We can show that the expectation of the empirical risk across the data generating distribution: $$\mathbb{E}_D[\frac{1}{m}\sum_{i=1}^{m} L(f(x_i;\theta), y_i)] = \frac{1}{m}\mathbb{E_D}\sum_{i=1}^{m} L(f(x_i;\theta), y_i)$$ 
+    - We can show that the expectation of the empirical risk across the data generating distribution is an unbiased estimate of the true risk: $$\mathbb{E}_D[\frac{1}{m}\sum_{i=1}^{m} L(f(x_i;\theta), y_i)] = \frac{1}{m}\mathbb{E_D}\sum_{i=1}^{m} L(f(x_i;\theta), y_i)$$ 
     - By linearity of expectation, we have $$\frac{1}{m}\sum_{i=1}^{m}\mathbb{E_D}[ L(f(x_i;\theta), y_i)]$$ 
-    - Since we use IID assumptions, this is the same as calculating the expectation for any sample from the data generating distribution: $$\frac{1}{m}\sum_{i=1}^{m}\mathbb{E_D}[ L(f(x;\theta), y)]$$, making the sum term the same as the true risk.
+    - Since we use IID assumptions, this is the same as calculating the expectation for any sample from the data generating distribution: $$\frac{1}{m}\sum_{i=1}^{m}\mathbb{E_D}[ L(f(x;\theta), y)]$$, making the sum term the same as the true risk. 
     - This result provides us some assurance that empirical risk minimization is a good strategy to also approximate minimizing the true risk, though we can also show that there exist learners for which the true risk is $1$ and the empirical risk is $0$. 
-- If $$L$$ is the 0-1 loss, then we generally cannot use this function directly, since optimizing on it is intractable.
+      - This is because the result states nothing about the variance of the empirical risk.
+- If $$L$$ is the 0-1 loss, then we generally cannot use this function directly, since optimizing on it is intractable.s
 - To work around this, a **surrogate loss function** is often used, such as the negative log-likelihood, as an approximation for the 0/1 loss.
 - We can also compute the 0/1 loss across validation data during training, and when it stops decreasing it may be an indication for early stopping.
 
@@ -77,13 +78,11 @@
 - Overall, its important to try to choose a good initialization scheme, and possibly try several different random initializations, train the model, and pick the one that did the best.
 
 
-
-
 #### Basic Algorithms
 
 - **Stochastic Gradient Descent**
 
-  - It is possible to obtain an unbiased estimate of the gradient by computign the average gradient on a minibatch of samples drawn IID from the data generating distribution
+  - It is possible to obtain an unbiased estimate of the gradient by computing the average gradient on a minibatch of samples drawn IID from the data generating distribution
 
   - In practice, it is important to decay the learning rate while training. For example, a linear decay schedule could be:
 
@@ -197,16 +196,111 @@
 - **AdaGrad**
 
   - Adapt learning rates per-parameter
+
   - Each parameter's learning rate is scaled inverserly proportional by the square-rooted sum of all previous squared gradients 
+
   - Parameters with large gradients therefore have smaller effective learning rates, and parameters with small gradients therefore have larger effective learning rates
+
   - Intuition: parameters with large gradients represent more intense curvature and changing directions across the optimization surface, while parameters with smaller gradients correspond to more consistent and gentle curvature. So we want to have larger gradient influence in the latter, while less in the former
+
   - A common criticism is that since it accumulates gradients from the start of training (when gradients are usually large) the algorithm decreases the effective learning rate too quickly to be effective
+
+  - Update for Adagrad:
+
+    Compute $$ g $$ as usual: $$ g = \frac{1}{m}\nabla_{\theta} \sum_{i=1}^{m} L(f(x^i ; \theta), y^i)$$ 
+
+    Add $$ g$$ to the running squared gradient (here $$ r = 0$$ to begin with): $$ r = r + g \circ{}g$$ where $$ \circ$$ is the hadamard product
+
+    Use $$ r $$ to scale the per-parameter learning rate for the update: $$ \theta = \theta - \frac{\epsilon}{\sqrt{\delta + r}}g$$ where, per parameter, $$ \theta $$ is the weight to be updated, $$ \epsilon$$ is the global learning rate, $$ \delta$$ is a small constant for numerical stability, and $$ r $$ is the parameter's sum of squared gradients
+
+    - We can see a clear downside with this: since the grads are generally large when learning begins, this approach may decrease the model's LR too quickly, and result in a model that is much slower to converge.
 
 - **RMSProp**
 
-  - ​
+  - AdaGrad had a problem: it weights all previous gradient updates equally, meaning that gradient updates far in the past have an equal influence on the effective learning rate that is computed as the current gradients do.
 
-  ​
+    - This may not be good, if we wish to adapt the individual parameter learning rates to the current optimization landscape we are at, as opposed to the optimization landscape in the past
+    - Also, if there are large gradients in the past, then effective learning rates will always be small, and they will always continue to decrease
+    - Example: AdaGrad is supposed to perform well in a convex bowl (it was originally designed for convex optimization), but it doesn't work if it was previously optimizing in a nonconvex landscape
+    - Fix: RMSProp
+
+  - RMSProp exponentially decays past learning rates, so that gradients from the past have much less of an influence on the current effective learning rate than present gradients. Our only difference is now that we introduce a decay variable $$ \rho$$ and scale our past squared gradient norms by this:
+
+    $$ g = \frac{1}{m}\nabla_{\theta} \sum_{i=1}^{m} L(f(x^i ; \theta), y^i)$$ 
+
+    $$ r = \rho r + (1 - \rho)g \circ g$$
+
+    $$ \theta = \theta - \frac{\epsilon}{\sqrt{\delta + r}}g$$ 
+
+    - A small value for $$ \rho$$ decreases the influence that past squared gradients have on the current effective learning rate, while a large value means that the past gradients should have a greater effect.
+
+  - Note: A similar algorithm, AdaDelta, exists in order to resolve the same AdaGrad problem that RMSProp sought to solve. The solution is largely similar to that used in RMSProp, so the two algorithms are quite similar. 
+
+  - RMSProp is also commonly used with nesterov momentum; the two work together in the following manner:
+
+    Evaluate $$ g $$ at the parameters offset by the momentum vector: $$ g = \frac{1}{m}\nabla_{\theta} \sum_{i=1}^{m} L(f(x^i ; \theta + \alpha v), y^i)$$
+
+    Compute the effective learning rate in the same manner: $$  r = \rho r + (1 - \rho)g \circ g $$
+
+    Update the momentum: $$ v = \alpha v - \frac{e}{\sqrt{\delta + r}}g$$
+
+    Apply the update: $$ \theta = \theta + v $$
+
+    ​
+
+- **Adam Optimizer** - the most commonly used optimizer
+
+  - Sort of combines RMSProp with momentum techniques - it keeps an exponentially decaying weighted average of past squared gradients, *and* an exponentially decaying weighted average of past gradients (similar to momentum)
+
+  - Both of these constants are then *adjusted for bias* based on the current timestep, because since they are intialized to $$ 0$$, they are heavily biased towards $$ 0$$, especially at earlier timesteps and when the decay rates are close to $$ 1 $$. The algorithm:
+
+    Let $$ s = 0 $$, $$ r = 0 $$, and keep track of the timestep $$ t $$, which is set to $$ 0 $$ as well.Now compute the gradient update:
+
+    $$  g = \frac{1}{m}\nabla_{\theta} \sum_{i=1}^{m} L(f(x^i ; \theta), y^i)$$ 
+
+    $$ t = t + 1 $$
+
+    Update $$ s = \rho_1s + (1 - \rho_1)g $$ (exponentially decaying *squared* gradients)
+
+    Update $$  r = \rho_2 r + (1 - \rho_2)g \circ g$$ (exponentially decaying gradients)
+
+    Correct biases: $$ \hat{s} = \frac{s}{1 - \rho_1^t} $$ and $$ \hat{r} = \frac{r}{1 - \rho_2^t} $$ . Generally, $$ \rho $$ is large (between 0.9 and 0.999), so this will cause the biased estimates of the first and second moments to be large for lower timesteps, and small for later timesteps.
+
+    Perform update: $$ \theta = \theta - \epsilon \frac{\hat{s}}{\sqrt{\hat{r}}}$$
+
+  - **What does the update rule signify?**
+
+  - The authors call the term $$  \frac{\hat{s}}{\sqrt{\hat{r}}} $$ a "signal-to-noise ratio". If this ratio is close to $$ 0$$, this means that there is less certainty about $$ \hat{s} $$ corresponding to the direction of the true gradient, for example, this could occur near optimum, in which case smaller step sizes are good (so as to not overshoot the optimum, which could happen with a larger step size).
+
+  - **Why is there a bias adjustment?**
+
+  - Since $$ r $$ and $$ s $$ are initialized to $$ 0 $$, they are heavily biased to $$ 0 $$, especially at the beginning. The bias towards $$ 0 $$ is further contributed to by the fact that the decay constants $$ \rho $$ are usually around 0.99 (i.e. close to $$ 1 $$), so the decay is relatively slow. To fix this bias towards $$ 0 $$< the bias adjustments above are made, which make the values larger during earlier timesteps.
+
+
+#### Second-Order Methods
+
+- Newton's method - the main idea is to optimize the quadtratic approximation of the objective:
+
+  $$ J(\theta) \approx J(\theta_0) + (\theta - \theta_0)^T\nabla_{\theta}J(\theta_0) + \frac{1}{2}(\theta - \theta_0)^T H (\theta - \theta_0) $$
+
+- Solving for the critical point of the quadratic approximation gives us:
+
+  $$ \theta = \theta_0 - H^{-1}\nabla_{\theta}J(\theta_0) $$ where $$ H $$ is the matrix of second derivatives evaluated at $$ \theta_0$$
+
+- This term is similar to the usual Newton's method in single-variable calculus: $$ \theta = \theta_0 - \frac{f'(x_0)}{f''(x_0)} $$ 
+
+- For a locally quadtratic function with positive-definite $$ H $$, Newton's method would immediately jump to the minimum. For a general convex optimization problem (with positive-definite $$ H $$) Newton's method can be applied iteratively to get to the global minimum.
+
+- However, issues arise for nonconvex problems. As seen above, we simply solved for the approximation's critical point to determine where to jump, but this would only be a minima if we had convexity guarantees. In general, then, Newton's method will jump to a point with $$ 0 $$ gradient, which could also be a local max or saddle point. In this case, our algorithm would incorrectly conclude that it has converged, and make no more updates, even though it did not correctly find the minimum.
+
+- As a fix for the above, in order to try to apply Newton's method to deep learning, we have the regularized Newton's method:
+
+  $$ \theta = \theta_0 - (H + \alpha I)^{-1}\nabla_{\theta}J(\theta_0) $$ where $$ \alpha $$ is set to offset the magnitude of curvature in the optimization surface. For strong negative curvature, $$ \alpha $$ would need to be set to be very large, which could make Newton's method make such slow progress that regular first-order gradient methods would have optimized faster.
+
+- The main limitation of using Newton's method in practice is complexity. If we have $$ k $$ params, then the Hessian is a $$ k * k $$ matrix, inversion of which is $$ O(k^3) $$, and considering that even small networks have millions of parameters, this is impractical.
 
 
 
+#### Conjugate gradients method
+
+- ​
