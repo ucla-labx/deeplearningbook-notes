@@ -120,7 +120,7 @@
   - Momentum update rule:
 
     - Initialize $$ v = 0 $$ which will hold an exponentially decaying moving average of past gradients
-    - $$ v \leftarrow{} \alpha v - \epsilon_tg $$  where $$ g $$ is the gradient, $$ \alpha $$ is the momentum constant. $$\alpha$$ is generally set to be $$ 0.9$$ and it is not uncommon to increase the value throughout training. Intuitively, it says how much of the update should be decided by previous gradient values and current gradient values. In cases of high curvature, noisy gradients, or at the local minumum when we want to be more sure about our steps, may be better to have a higher alpha and more influence from previous gradients.
+    - $$ v \leftarrow{} \alpha v - \epsilon_tg $$  where $$ g $$ is the gradient, $$ \alpha $$ is the momentum constant. $$\alpha$$ is generally set to be $$ 0.9$$ and it is not uncommon to increase the value throughout training. Intuitively, it says how much of the update should be influenced by previous gradient values. In cases of high curvature, noisy gradients, or at the local minumum when we want to be more sure about our steps, may be better to have a higher alpha and more influence from previous gradients.
     - Actual update: $$\theta \leftarrow{} \theta + v $$
 
   - Now, step size doesn't depend on only the value of the gradient at that point, but how large and aligned a sequence of previous gradients were
@@ -211,7 +211,11 @@
 
     Add $$ g$$ to the running squared gradient (here $$ r = 0$$ to begin with): $$ r = r + g \circ{}g$$ where $$ \circ$$ is the hadamard product
 
-    Use $$ r $$ to scale the per-parameter learning rate for the update: $$ \theta = \theta - \frac{\epsilon}{\sqrt{\delta + r}}g$$ where, per parameter, $$ \theta $$ is the weight to be updated, $$ \epsilon$$ is the global learning rate, $$ \delta$$ is a small constant for numerical stability, and $$ r $$ is the parameter's sum of squared gradients
+    Use $$ r $$ to scale the per-parameter learning rate for the update: $$ \theta = \theta - \frac{\epsilon}{\sqrt{\delta + r}}\circ{} g$$ where, per parameter, $$ \theta $$ is the weight to be updated, $$ \epsilon$$ is the global learning rate, $$ \delta$$ is a small constant for numerical stability, and $$ r $$ is the parameter's sum of squared gradients
+
+    - The square root, division, and addition operations are applied elementwise, since $$ r $$ is a vector. Concretely, the operation $$ r = r + g \circ{} g $$ returns a vector, and each value in the vector represents the running sum of squared gradients of the particular parameter at that index. Therefore, this is the vectorized version of the algorithm - the term $$ \frac{\epsilon}{\sqrt{\delta + r}} $$ *differs for each parameter*, so each parameter is differently scaled, depending on the particular value of their sum of squared gradients.
+    - As mentioned, if a particular parameter has a large sum of squared gradients, its gradient will be scaled relatively more, so a smaller step will be taken in that direction 
+
 
     - We can see a clear downside with this: since the grads are generally large when learning begins, this approach may decrease the model's LR too quickly, and result in a model that is much slower to converge.
 
@@ -230,7 +234,10 @@
 
     $$ r = \rho r + (1 - \rho)g \circ g$$
 
-    $$ \theta = \theta - \frac{\epsilon}{\sqrt{\delta + r}}g$$ 
+    $$ \theta = \theta - \frac{\epsilon}{\sqrt{\delta + r}}\circ{}g$$ 
+
+    - The square root, division, and addition operations are applied elementwise, similar to Adagrad. This update adjusts the learning rate *per-parameter*, making it so that each parameter's gradient is scaled by a per-parameter learning rate that is dependent on (exponentially decaying) past gradients.
+
 
     - A small value for $$ \rho$$ decreases the influence that past squared gradients have on the current effective learning rate, while a large value means that the past gradients should have a greater effect.
 
@@ -260,13 +267,15 @@
 
     $$ t = t + 1 $$
 
-    Update $$ s = \rho_1s + (1 - \rho_1)g $$ (exponentially decaying *squared* gradients)
+    Update $$ s = \rho_1s + (1 - \rho_1)g $$ (exponentially decaying gradients, similar to momentum)
 
-    Update $$  r = \rho_2 r + (1 - \rho_2)g \circ g$$ (exponentially decaying gradients)
+    Update $$  r = \rho_2 r + (1 - \rho_2)g \circ g$$ (exponentially *squared* decaying gradients, similar to RMSProp)
 
-    Correct biases: $$ \hat{s} = \frac{s}{1 - \rho_1^t} $$ and $$ \hat{r} = \frac{r}{1 - \rho_2^t} $$ . Generally, $$ \rho $$ is large (between 0.9 and 0.999), so this will cause the biased estimates of the first and second moments to be large for lower timesteps, and small for later timesteps.
+    Correct biases: $$ \hat{s} = \frac{s}{1 - \rho_1^t} $$ and $$ \hat{r} = \frac{r}{1 - \rho_2^t} $$ . Generally, $$ \rho $$ is large (between 0.9 and 0.999), so this will cause the biased estimates of the first and second moments to be large for lower timesteps (approximately being scaled by 100-1000ish x), and small for later timesteps (the limit is $$ r $$ or $$ s $$ itself as $$ t \rightarrow{} \infty $$.
 
-    Perform update: $$ \theta = \theta - \epsilon \frac{\hat{s}}{\sqrt{\hat{r}}}$$
+    Perform update: $$ \theta = \theta - \epsilon \frac{\hat{s}}{\sqrt{\hat{r}}}$ \circ{} g$$
+
+    Similar to above, this update will be per-parameter.
 
   - **What does the update rule signify?**
 
@@ -274,7 +283,7 @@
 
   - **Why is there a bias adjustment?**
 
-  - Since $$ r $$ and $$ s $$ are initialized to $$ 0 $$, they are heavily biased to $$ 0 $$, especially at the beginning. The bias towards $$ 0 $$ is further contributed to by the fact that the decay constants $$ \rho $$ are usually around 0.99 (i.e. close to $$ 1 $$), so the decay is relatively slow. To fix this bias towards $$ 0 $$< the bias adjustments above are made, which make the values larger during earlier timesteps.
+  - Since $$ r $$ and $$ s $$ are initialized to $$ 0 $$, and the operations performed are additive, they are heavily biased to $$ 0 $$, especially at the beginning. The bias towards $$ 0 $$ is further contributed to by the fact that the decay constants $$ \rho $$ are usually around 0.99 (i.e. close to $$ 1 $$), so the decay is relatively slow. To fix this bias towards $$ 0 $$< the bias adjustments above are made, which make the values larger during earlier timesteps.
 
 
 #### Second-Order Methods
@@ -287,7 +296,7 @@
 
   $$ \theta = \theta_0 - H^{-1}\nabla_{\theta}J(\theta_0) $$ where $$ H $$ is the matrix of second derivatives evaluated at $$ \theta_0$$
 
-- This term is similar to the usual Newton's method in single-variable calculus: $$ \theta = \theta_0 - \frac{f'(x_0)}{f''(x_0)} $$ 
+- This term is similar to the usual Newton's method in single-variable calculus: $$ \theta = \theta_0 - \frac{f'(\theta_0)}{f''(\theta_0)} $$ 
 
 - For a locally quadtratic function with positive-definite $$ H $$, Newton's method would immediately jump to the minimum. For a general convex optimization problem (with positive-definite $$ H $$) Newton's method can be applied iteratively to get to the global minimum.
 
